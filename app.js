@@ -33,6 +33,8 @@ const usersRoutes = require('./routes/users');
 // Database Setup
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/test';
 
+const mongoDBstore = require('connect-mongo');
+
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -110,12 +112,22 @@ app.use(
 
 // Session Configuration
 const secret = process.env.SESSION_SECRET || 'thisshouldbeabettersecret!';
+
+const store = new mongoDBstore({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60,
+});
+
+store.on('error', function (e) {
+    console.log('SESSION STORE ERROR', e);
+});
+
 const sessionConfig = {
+    store,
     name: 'session',
     secret,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: dbUrl }),
     cookie: {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
