@@ -57,7 +57,7 @@ app.use(express.json());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize());
-app.use(cors({ origin: "https://camp-connect.onrender.com/" })); 
+app.use(cors({ origin: "https://camp-connect.onrender.com" })); 
 
 // Debugging Middleware
 app.use((req, res, next) => {
