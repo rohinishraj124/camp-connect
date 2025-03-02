@@ -9,6 +9,15 @@ module.exports.renderRegister = (req, res) => {
 
 module.exports.register = catchAsync(async (req, res, next) => {
     const { email, username, password } = req.body;
+
+    // Check if the email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+        req.flash('error', 'Email is already registered. Please use a different email.');
+        return res.redirect('/register');
+    }
+
+    // If email is unique, proceed with registration
     const user = new User({ email, username });
     const registeredUser = await User.register(user, password);
 
@@ -18,6 +27,7 @@ module.exports.register = catchAsync(async (req, res, next) => {
         res.redirect('/campgrounds');
     });
 });
+
 
 module.exports.renderLogin = (req, res) => {
     res.render('users/login');

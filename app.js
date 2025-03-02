@@ -19,6 +19,8 @@ const helmet = require('helmet');
 const MongoStore = require('connect-mongo');
 const ExpressError = require('./utils/ExpressError');
 const catchAsync = require('./utils/catchAsync');
+const cors = require("cors");
+
 
 // Models
 const User = require('./models/user');
@@ -55,6 +57,7 @@ app.use(express.json());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize());
+app.use(cors({ origin: "https://camp-connect.onrender.com/" })); 
 
 // Debugging Middleware
 app.use((req, res, next) => {
