@@ -46,8 +46,10 @@ mongoose.connect(dbUrl, {
     console.error('Database connection error:', err);
 });
 
+
 // Express Configuration
 const app = express();
+app.use(express.static("public"));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.engine('ejs', ejsMate);
@@ -55,7 +57,8 @@ app.engine('ejs', ejsMate);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use("/stylesheets", express.static(__dirname + "/public/stylesheets"));
+
 app.use(mongoSanitize());
 app.use(cors({ origin: "https://camp-connect.onrender.com" })); 
 
@@ -200,7 +203,7 @@ app.use((err, req, res, next) => {
 });
 
 // Start the Server
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
+const port = process.env.PORT || 3000;
+app.listen(port, '0.0.0.0', () => {
     console.log(`Server listening on port ${port}`);
 });
