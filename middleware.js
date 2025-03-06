@@ -16,11 +16,11 @@ const isLoggedIn = (req, res, next) => {
 // Middleware for storing returnTo URL after login
 const storeReturnTo = (req, res, next) => {
     if (req.session.returnTo) {
-        res.locals.returnTo = req.session.returnTo; // Store returnTo in locals for later use
-        delete req.session.returnTo; // Clear returnTo after storing it
+        console.log("Return to:", req.session.returnTo); // Debugging log
     }
     next();
 };
+
 
 // Middleware for checking if the user is the author of the campground
 const isAuthor = async (req, res, next) => {

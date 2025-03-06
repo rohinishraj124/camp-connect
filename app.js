@@ -136,11 +136,13 @@ const sessionConfig = {
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: process.env.NODE_ENV === 'production', // Ensure HTTPS is used in production
+        sameSite: 'Lax', // Helps with authentication issues
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // 1 week
         maxAge: 1000 * 60 * 60 * 24 * 7,
     },
 };
+
 
 app.use(session(sessionConfig));
 app.use(flash());

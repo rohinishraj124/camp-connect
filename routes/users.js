@@ -18,8 +18,12 @@ router.route('/login')
     .post(
         storeReturnTo,
         passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }),
-        user.login
+        (req, res) => {
+            console.log("Login successful:", req.user); // Debugging log
+            user.login(req, res);
+        }
     );
+
 
 // Logout route
 router.get('/logout', user.logout);
